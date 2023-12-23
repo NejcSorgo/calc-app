@@ -3,5 +3,6 @@
 
 int validator (std::string input)
 {
+    std::cout<<input<<std::endl;
     return 1;
 }
