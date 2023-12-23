@@ -119,13 +119,13 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         }
             return 0;
         case WM_KEYDOWN: // ta del ne deluje (glej za button WM_COMMAND case 1)
-                if (VK_RETURN)
+       /*         if (VK_RETURN)
                 {
                     wchar_t text[GetWindowTextLengthA(inputBox)];
                     GetWindowText(inputBox,text,130);
                     std::wstring ws(text);
                     std::string str(ws.begin(), ws.end());
-                    if(preveri(str)) // poslje text na validator
+                    if(preveri(str,1)) // poslje text na validator
                     {
                         SendMessage(resultBox, EM_SETSEL, -1, -1);
                         SendMessage(resultBox, EM_REPLACESEL, 0, (LPARAM)&text[0]);
@@ -135,7 +135,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
                     }
                    // delete[] text;
                 }
-                break;
+                break;*/
         case WM_COMMAND: // za buttone
             switch(LOWORD(wParam))
             {
@@ -144,7 +144,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
                     GetWindowText(inputBox,text,GetWindowTextLengthA(inputBox)+ 1);
                     std::wstring ws(text);
                     std::string str(ws.begin(), ws.end());
-                    if(preveri(str)) // poslje text na validator
+                    if(preveri(str,1)) // poslje text na validator
                     {
                        // SendMessage(resultBox, EM_SETSEL, -1, -1);
                         SendMessage(resultBox, EM_REPLACESEL, 0, (LPARAM)&text[0]);
