@@ -5,8 +5,8 @@
 #define WM_LBUTTONDOWN    0x0201
 #include <windows.h>
 #include <winuser.h>
-#include "./validator.cpp";
-#include "./operatorji.cpp";
+#include "./validator.cpp"
+#include "./operatorji.cpp"
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 HWND window,inputBox,hwndButton,resultBox;
@@ -42,24 +42,24 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     );
      hwndButton = CreateWindow(
              L"BUTTON",  // Predefined class; Unicode assumed
-            L"OK",      // Button text
+            L"Poslji",      // Button text
             WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,  // Styles
             10,         // x position
             10,         // y position
-            100,        // Button width
-            100,        // Button height
+            100,        // Sirina
+            100,        // Visina
             window,     // Parent window
-            NULL,       // No menu.
+             (HMENU) 1,       // No menu.
             (HINSTANCE)GetWindowLongPtr(window, GWLP_HINSTANCE),
              NULL);
      inputBox = CreateWindow(
              L"EDIT",  // Predefined class; Edit - omogoca uporabniski vnos
             L"",      // Button text
             WS_TABSTOP | WS_VISIBLE | WS_CHILD | WS_BORDER | WS_CHILD | WS_VISIBLE,  // Styles
-            100,         // x position
-            100,         // y position
-            100,        // Button width
-            20,        // Button height
+            110,         // x position
+            10,         // y position
+            250,        // Sirina
+            100,        // Visina
             window,     // Parent window
             NULL,       // No menu.
             (HINSTANCE)GetWindowLongPtr(window, GWLP_HINSTANCE),
@@ -118,14 +118,14 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
             EndPaint(hwnd, &ps);
         }
             return 0;
-        case WM_KEYDOWN:
+        case WM_KEYDOWN: // ta del ne deluje (glej za button WM_COMMAND case 1)
                 if (VK_RETURN)
                 {
-                    wchar_t text[GetWindowTextLengthA(hwnd)];
-                    GetWindowText(hwnd,text,130);
+                    wchar_t text[GetWindowTextLengthA(inputBox)];
+                    GetWindowText(inputBox,text,130);
                     std::wstring ws(text);
                     std::string str(ws.begin(), ws.end());
-                    if(validator(str)) // poslje text na validator
+                    if(preveri(str)) // poslje text na validator
                     {
                         SendMessage(resultBox, EM_SETSEL, -1, -1);
                         SendMessage(resultBox, EM_REPLACESEL, 0, (LPARAM)&text[0]);
@@ -133,16 +133,27 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
                     {
 
                     }
-                    delete[] text;
+                   // delete[] text;
                 }
                 break;
-        case WM_COMMAND:
+        case WM_COMMAND: // za buttone
             switch(LOWORD(wParam))
             {
-                case 1: // when button is clicked, this will happen:
+                case 1:
+                    wchar_t text[GetWindowTextLengthA(inputBox)];
+                    GetWindowText(inputBox,text,GetWindowTextLengthA(inputBox)+ 1);
+                    std::wstring ws(text);
+                    std::string str(ws.begin(), ws.end());
+                    if(preveri(str)) // poslje text na validator
+                    {
+                       // SendMessage(resultBox, EM_SETSEL, -1, -1);
+                        SendMessage(resultBox, EM_REPLACESEL, 0, (LPARAM)&text[0]);
+                    } else
+                    {
 
-                    // what code should go here??
-
+                        wchar_t error[7] = {L"napaka"};
+                        SendMessage(resultBox, EM_REPLACESEL, 0, (LPARAM)&error[0]);
+                    }
                     break;
             }
 

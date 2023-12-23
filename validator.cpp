@@ -1,8 +1,8 @@
-//napisi funkcijo, ki prejme
+//returns true or false based on if the input is good.
 #include <iostream>
 
-int validator (std::string input)
+bool preveri (std::string input, int mode)
 {
     std::cout<<input<<std::endl;
-    return 1;
+    return true;
 }
