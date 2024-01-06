@@ -1,6 +1,5 @@
-#ifndef UNICODE
+﻿#ifndef UNICODE
 #define UNICODE
-
 #endif
 #define WM_LBUTTONDOWN    0x0201
 #include <windows.h>
@@ -9,7 +8,8 @@
 #include "./operatorji.cpp"
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-HWND window,inputBox,hwndButton,resultBox;
+HWND window,inputBox,hwndButton,resultBox,numberSystemComboBox;
+
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow)
 {
     // Register the window class.
@@ -21,7 +21,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     wc.hInstance     = hInstance;
 
     wc.lpszClassName = CLASS_NAME;
-
+    std::cout<<"Dvojiski"<<std::endl;
     RegisterClass(&wc);
 
     // Create the window.
@@ -52,7 +52,20 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
              (HMENU) 1,       // No menu.
             (HINSTANCE)GetWindowLongPtr(window, GWLP_HINSTANCE),
              NULL);
-     inputBox = CreateWindow(
+
+    numberSystemComboBox = CreateWindow(
+            L"COMBOBOX",  // Predefined class; Unicode assumed
+            L"Poslji",      // Button text
+            CBS_DROPDOWNLIST | CBS_HASSTRINGS | WS_CHILD | WS_OVERLAPPED | WS_VISIBLE,  // Styles
+            10,         // x position
+            110,         // y position
+            100,        // Sirina
+            100,        // Visina
+            window,     // Parent window
+            (HMENU) 2,       // No menu.
+            (HINSTANCE)GetWindowLongPtr(window, GWLP_HINSTANCE),
+            NULL);
+    inputBox = CreateWindow(
              L"EDIT",  // Predefined class; Edit - omogoca uporabniski vnos
             L"",      // Button text
             WS_TABSTOP | WS_VISIBLE | WS_CHILD | WS_BORDER | WS_CHILD | WS_VISIBLE,  // Styles
@@ -76,6 +89,19 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
             NULL,       // No menu.
             (HINSTANCE)GetWindowLongPtr(window, GWLP_HINSTANCE),
             NULL);
+    //Napolni dropdown za stevilske sisteme
+    TCHAR StevilskiSistemi[4][14] =
+            {
+                    TEXT("Dvojiski"), TEXT("Desetiski"), TEXT("Osmiski"), TEXT("Sestnajstiski"),
+
+            };
+    TCHAR A[16];
+    memset(&A,0,sizeof(A));
+    for (int k = 0; k < 4; k++)
+    {
+        wcscpy_s(A, sizeof(A)/sizeof(TCHAR),  (TCHAR*)StevilskiSistemi[k]);
+        SendMessage(numberSystemComboBox,(UINT) CB_ADDSTRING,(WPARAM) 0,(LPARAM)StevilskiSistemi[k]);
+    }
 
     if (window == NULL)
     {
@@ -106,7 +132,6 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         case WM_DESTROY:
             PostQuitMessage(0);
             return 0;
-
         case WM_PAINT:
         {
             PAINTSTRUCT ps;
@@ -134,17 +159,18 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
                     }
                    // delete[] text;
-                }
-                break;*/
+                }*/
+                break;
         case WM_COMMAND: // za buttone
             switch(LOWORD(wParam))
             {
                 case 1:
                     wchar_t text[GetWindowTextLengthA(inputBox)];
                     GetWindowText(inputBox,text,GetWindowTextLengthA(inputBox)+ 1);
+
                     std::wstring ws(text);
                     std::string str(ws.begin(), ws.end());
-                    if(preveri(str,1)) // poslje text na validator
+                    if(preveri(str,SendMessage(numberSystemComboBox, CB_SETCURSEL, (WPARAM)2, (LPARAM)0))) // poslje text na validator
                     {
                        // SendMessage(resultBox, EM_SETSEL, -1, -1);
                         SendMessage(resultBox, EM_REPLACESEL, 0, (LPARAM)&text[0]);
@@ -156,10 +182,6 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
                     }
                     break;
             }
-
-
-
-
     }
     return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
