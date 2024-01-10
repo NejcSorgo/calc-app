@@ -67,13 +67,17 @@ b – 2. Polje bitov
 
 datoteka: operacije.cpp 
 
-### 3.2 za pretvarjanje med številskimi sistemi 
-- Desetiško  
-- Osmiško
-- Binarno 
-- Šestnajstiško 
-
-datoteka: operacije.cpp 
+### 3.2 za pretvarjanje med številskimi sistemi string <ime_pretvorbe> (string input)
+- Funkcija naj vrne niz, ki bo vseboval pretvorjena stevila.
+- Prvo se števila pretvorijo v binarno
+- Nato se iz binarnega lahko pretvori v katerikoli številski sistem (manj dela kot direktno prevajanje)
+- Možna uporaba regex-a, ki ti poišče številke v nizu.
+ #### Primer:
+     string input = "5 XOR 4 AND ( 12 OR 15)";
+     DecimalToBinary(input);
+ ##### Naj vrne:
+     101 XOR 100 AND (1100 OR 1111)
+datoteka: pretvorbe.cpp 
 
 ## 4. GUI (grafični vmesnik) (nejc Šorgo, po možnosti še drugi) 
 
