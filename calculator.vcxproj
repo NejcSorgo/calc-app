@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClInclude Include="calculator.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="logic_gates.h" />
     <ClInclude Include="parser.h" />
     <ClInclude Include="validator.h" />
     <ClInclude Include="Resource.h" />
@@ -148,6 +149,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="calculator.cpp" />
+    <ClCompile Include="logic_gates.cpp" />
     <ClCompile Include="parser.cpp" />
   </ItemGroup>
   <ItemGroup>
