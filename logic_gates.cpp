@@ -23,9 +23,9 @@ vector<bool> andgate(vector<bool> input1, vector<bool> input2, int n) {
         else {
             rezultat[i] = false;
         }
-        //return rezultat;
-        return rezultat;
+        //return rezultat
     }
+     return rezultat;
 }
 
 vector<bool> orgate(vector<bool> input1,vector<bool> input2, int n) {
@@ -50,8 +50,9 @@ vector<bool> orgate(vector<bool> input1,vector<bool> input2, int n) {
         else {
             rezultat[i] = false;
         }
-        return rezultat;
+        
     }
+    return rezultat;
 }
 
 vector<bool> xorgate(vector<bool> input1,vector<bool> input2, int n) {
@@ -76,8 +77,9 @@ vector<bool> xorgate(vector<bool> input1,vector<bool> input2, int n) {
         else {
             rezultat[i] = false;
         }
-        return rezultat;
+       
     }
+     return rezultat;
 }
 
 vector<bool> nandgate(vector<bool> input1,vector<bool> input2, int n) {
@@ -102,8 +104,9 @@ vector<bool> nandgate(vector<bool> input1,vector<bool> input2, int n) {
         else {
             rezultat[i] = true;
         }
-        return rezultat;
+        
     }
+    return rezultat;
 }
 
 vector<bool> norgate(vector<bool> input1,vector<bool> input2, int n) {
@@ -128,8 +131,9 @@ vector<bool> norgate(vector<bool> input1,vector<bool> input2, int n) {
         else {
             rezultat[i] = false;
         }
-        return rezultat;
+        
     }
+    return rezultat;
 }
 
 vector<bool> xnorgate(vector<bool> input1,vector<bool> input2, int n) {
@@ -154,6 +158,7 @@ vector<bool> xnorgate(vector<bool> input1,vector<bool> input2, int n) {
         else {
             rezultat[i] = true;
         }
-        return rezultat;
+        
     }
+    return rezultat;
 }
