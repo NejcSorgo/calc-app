@@ -47,6 +47,9 @@
     <ClCompile Include="logic_gates.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="validator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="calculator.rc">

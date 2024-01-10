@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include "logic_gates.h"
 using namespace std;
 vector<bool> andgate(vector<bool> input1, vector<bool> input2, int n) {
     cout << endl << endl << "AND Gate:" << endl;
