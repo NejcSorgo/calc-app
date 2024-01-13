@@ -4,4 +4,5 @@
 
 std::vector<bool> parseLogicGates(std::string input, int size);
 double parseArithmetic(std::string input, int size);
+std::string booleanToString(std::vector<bool> input);
 		

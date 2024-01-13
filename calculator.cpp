@@ -3,6 +3,7 @@
 
 #include "framework.h"
 #include "calculator.h"
+#include "parser.h"
 #include <iostream>
 #define MAX_LOADSTRING 100
 
@@ -228,9 +229,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 {
                     // SendMessage(resultBox, EM_SETSEL, -1, -1);
                     std::wstring ws(inputText);
-                    std::string (ws.begin(), ws.end()); // convertanje v string
-                    
-                    SendMessage(resultBox, EM_REPLACESEL, 0, (LPARAM)&inputText[0]);
+                    std::string parserText(ws.begin(), ws.end()); // convertanje v string
+                    std::vector<bool> result = parseLogicGates(parserText, 8);
+                    std::string resultString = booleanToString(result);
+                    std::wstring widestr = std::wstring(resultString.begin(), resultString.end());
+
+ 
+                    const wchar_t* widecstr = widestr.c_str();
+                    SendMessage(resultBox, EM_REPLACESEL, 0, (LPARAM)&widecstr[0]);
                 }
                 else
                 {
