@@ -4,23 +4,26 @@ Avtorji: Nejc Šorgo, Sara Veskovič, Mark Vidovič
 
 Programski jezik: C++ 
 
-## 1.Preveri pravilnost vhodnih podatkov (sara veskovic)  
+## 1.Preverjanje vhodnih podatkov (sara veskovic)  
 
-Vhodni podatki : string input, int mode
-Mode predstavlja način (aritmetika, logična vrata, tip številskega sistema)
+Vhodni podatki : string input, int mode, int number_system
+number_system predstavlja stevilski sistem ( 0: binarno, 1: decimalno, 2: osmiško, 3: šestnajstiško)
+mode pomeni način računanja (0: artimetika, 1: logična vrata)
 Input pa vhodni niz, ki ga vpiše uporabnik
 
+- Če je napaka  naj vrne ime napake (obstaja oklepaj brez zaklepaja, nepravilni številski sistem, napačna operacija...) 
+- Funkcija naj tudi vrne niz popravljenega vnosa (v primeru da je vec presledkov skupaj naj jih pretvori v enega
+- Pred oklepaji in za zaklepajih mora biti presledek, ce ga ni naj se doda.
+- Niz se ne sme zaceti in koncati z presledkom.
+  
 ### 1.1 Logična vrata 
 
 - med vsako ključno besedo in številom mora bit presledek (razen v primeru npr (sqrt(10) ali pow(2,10)
 - Oklepaji se obravnavajo kot neki podniz , ki se posebej računa. 
 - Vsak oklepaj ( mora imeti tudi par ) 
-- Izračun velikost polja n 
-- Uporabniško vnesen ali pridobljen glede na velikost v bitih največjega števila v nizu 
-
- 
-
-Primer vhodnih podatkov:  
+- Število bitov vnese uporabnik ali je pridobljeno glede na dolžino največjega števila v binarni obliki
+- 
+Primer ustreznih vhodnih podatkov:  
 
     10101 XOR 111 OR 10001 
 
