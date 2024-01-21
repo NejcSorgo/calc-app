@@ -1,7 +1,7 @@
 #pragma once
-#include "wx/dialog.h"
-#include "wx/listbox.h"
-#include "wx/sizer.h"
+#include <wx/dialog.h>
+#include <wx/listbox.h>
+#include <wx/sizer.h>
 class HistoryDialog : public wxDialog
 {
 private:

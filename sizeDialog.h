@@ -1,12 +1,12 @@
 #pragma once
 #pragma once
-#include "wx/dialog.h"
-#include "wx/listbox.h"
-#include "wx/sizer.h"
-#include "wx/spinctrl.h"
-#include "wx/stattext.h"
-#include "wx/sizer.h"
-#include "wx/dialog.h"
+#include <wx/dialog.h>
+#include <wx/listbox.h>
+#include <wx/sizer.h>
+#include <wx/spinctrl.h>
+#include <wx/stattext.h>
+#include <wx/sizer.h>
+#include <wx/dialog.h>
 class sizeDialog : public wxDialog
 {
 private:

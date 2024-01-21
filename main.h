@@ -1,11 +1,11 @@
 #pragma once
-#include "wx/wx.h"
-#include "wx/txtstrm.h"
-#include "wx/notebook.h"
+#include <wx/wx.h>
+#include <wx/txtstrm.h>
+#include <wx/notebook.h>
 
-#include "wx/filedlg.h"
-#include "wx/stream.h"
-#include "wx/wfstream.h"
+#include <wx/filedlg.h>
+#include <wx/stream.h>
+#include <wx/wfstream.h>
 
 #include <iostream>
 #include <string>
