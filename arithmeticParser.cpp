@@ -5,7 +5,7 @@ arithmeticParser::arithmeticParser() {
 
 }
 int arithmeticParser::prioritet(char operacija) {
-    if (operacija == '*' || operacija == '/') {
+    if (operacija == '*' || operacija == '/' || operacija == '%') {
         return 2;
     }
     else if (operacija == '+' || operacija == '-') {
@@ -15,23 +15,26 @@ int arithmeticParser::prioritet(char operacija) {
         return 0; // Ostali znakovi koji nisu operatori
     }
 }
-
+    
 bool arithmeticParser::jeOperator(char znak) {
-    return (znak == '+' || znak == '-' || znak == '*' || znak == '/');
+    return (znak == '+' || znak == '-' || znak == '*' || znak == '/' || znak =='%');
 }
 
 int arithmeticParser::izracunajRezultat(const std::string& izraz) {
-    std::stack<double> brojevi;
+    std::stack<int> brojevi;
     std::stack<char> operacije;
 
     for (size_t i = 0; i < izraz.length(); ++i) {
         if (isdigit(izraz[i]) || (izraz[i] == '-' && (i == 0 || izraz[i - 1] == '('))) {
             bool negativan = (izraz[i] == '-');
             if (negativan) {
-                ++i; // Preskoči znak minus
+                i++;
+                while (izraz[i] == ' ')
+                    i++;
+                
             }
 
-            double broj = 0;
+            int broj = 0;
             while (i < izraz.length() && (isdigit(izraz[i]) || izraz[i] == '.')) {
                 broj = broj * 10 + (izraz[i] - '0');
                 ++i;
@@ -46,9 +49,9 @@ int arithmeticParser::izracunajRezultat(const std::string& izraz) {
         }
         else if (jeOperator(izraz[i])) {
             while (!operacije.empty() && prioritet(operacije.top()) >= prioritet(izraz[i])) {
-                double drugiBroj = brojevi.top();
+                int drugiBroj = brojevi.top();
                 brojevi.pop();
-                double prviBroj = brojevi.top();
+                int prviBroj = brojevi.top();
                 brojevi.pop();
                 char operacija = operacije.top();
                 operacije.pop();
@@ -62,6 +65,9 @@ int arithmeticParser::izracunajRezultat(const std::string& izraz) {
                     break;
                 case '*':
                     brojevi.push(prviBroj * drugiBroj);
+                    break;
+                case '%':
+                    brojevi.push(prviBroj % drugiBroj);
                     break;
                 case '/':
                     if (drugiBroj != 0) {
@@ -84,9 +90,9 @@ int arithmeticParser::izracunajRezultat(const std::string& izraz) {
         }
         else if (izraz[i] == ')') {
             while (!operacije.empty() && operacije.top() != '(') {
-                double drugiBroj = brojevi.top();
+                int drugiBroj = brojevi.top();
                 brojevi.pop();
-                double prviBroj = brojevi.top();
+                int prviBroj = brojevi.top();
                 brojevi.pop();
                 char operacija = operacije.top();
                 operacije.pop();
@@ -97,6 +103,9 @@ int arithmeticParser::izracunajRezultat(const std::string& izraz) {
                     break;
                 case '-':
                     brojevi.push(prviBroj - drugiBroj);
+                    break;
+                case '%':
+                    brojevi.push(prviBroj % drugiBroj);
                     break;
                 case '*':
                     brojevi.push(prviBroj * drugiBroj);
@@ -131,11 +140,14 @@ int arithmeticParser::izracunajRezultat(const std::string& izraz) {
             return 0.0;
         }
     }
-
-    while (!operacije.empty()) {
-        double drugiBroj = brojevi.top();
+    if (brojevi.size() == 1)
+    {
+        return brojevi.top();
+    }
+    while (!operacije.empty() ) {
+        int drugiBroj = brojevi.top();
         brojevi.pop();
-        double prviBroj = brojevi.top();
+        int prviBroj = brojevi.top();
         brojevi.pop();
         char operacija = operacije.top();
         operacije.pop();
@@ -149,6 +161,9 @@ int arithmeticParser::izracunajRezultat(const std::string& izraz) {
             break;
         case '*':
             brojevi.push(prviBroj * drugiBroj);
+            break;
+        case '%':
+            brojevi.push(prviBroj % drugiBroj);
             break;
         case '/':
             if (drugiBroj != 0) {
@@ -174,12 +189,12 @@ int arithmeticParser::izracunajRezultat(const std::string& izraz) {
     }
 }
 // Funkcija koja vraća kvadrat rezultata
-double arithmeticParser::kvadratRezultata(double rezultat) {
+intarithmeticParser::kvadratRezultata(intrezultat) {
     return pow(rezultat, 2);
 }
 
 // Funkcija koja vraća koren rezultata
-double arithmeticParser::korenRezultata(double rezultat) {
+intarithmeticParser::korenRezultata(intrezultat) {
     if (rezultat >= 0) {
         return sqrt(rezultat);
     }
@@ -193,19 +208,19 @@ double arithmeticParser::korenRezultata(double rezultat) {
 //    cout << "Unesite aritmeticki izraz: ";
 //    getline(cin, izraz);
 //
-//    double rezultat = izracunajRezultat(izraz);
+//    intrezultat = izracunajRezultat(izraz);
 //    cout << "Rezultat: " << rezultat << endl;
 //
 //    // Računanje i ispis kvadrata rezultata
-//    double rezultatKvadrat = kvadratRezultata(rezultat);
+//    intrezultatKvadrat = kvadratRezultata(rezultat);
 //    cout << "Kvadrat rezultata: " << rezultatKvadrat << endl;
 //
 //    // Računanje i ispis korena rezultata
-//    double rezultatKoren = korenRezultata(rezultat);
+//    intrezultatKoren = korenRezultata(rezultat);
 //    cout << "Koren rezultata: " << rezultatKoren << endl;
 //
-//    const double unaprijedDefiniraniPostotak = 1;
-//    double procenatRezultata = ((% * rezultat);
+//    const intunaprijedDefiniraniPostotak = 1;
+//    intprocenatRezultata = ((% * rezultat);
 //    cout << "Procenat rezultata: " << procenatRezultata << endl;
 //
 //

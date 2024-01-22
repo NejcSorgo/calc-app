@@ -781,22 +781,21 @@ void main::handleFileImport(wxCommandEvent& event)
 			}
 			switch (this->currentNumSystem)
 			{
-			case M_NUMSYS_DEC:
-				stringInputText = numCnvrt->DecimalToBinary(stringInputText);
+			case M_NUMSYS_BIN:
+				stringInputText = numCnvrt->BinaryToDecimal(stringInputText);
 				break;
 			case M_NUMSYS_HEX:
-				stringInputText = numCnvrt->HexToBinary(stringInputText);
+				stringInputText = numCnvrt->HexToDecimal(stringInputText);
 				break;
 			case M_NUMSYS_OCT:
-				stringInputText = numCnvrt->OctalToBinary(stringInputText);
+				stringInputText = numCnvrt->OctalToDecimal(stringInputText);
 				break;
 
 			default:
 				break;
 			}
-			std::string filtered_string = logic_parser->parseNOTgates(stringInputText, size_dialog->m_sizeSpin->GetValue());
-			std::vector<bool> result = logic_parser->parseLogicGates(filtered_string, size_dialog->m_sizeSpin->GetValue());
-			history_dialog->HistoryList->Append(wxString(stringInputText + " = " + this->logic_parser->booleanToString(result)));
+			int result = arithmetic_parser->izracunajRezultat(stringInputText);
+			history_dialog->HistoryList->Append(wxString(stringInputText + " = " + std::to_string(result)));
 			// do something with the string
 		}
 
@@ -825,9 +824,10 @@ void main::handleResult(wxCommandEvent& event) {
 		break;
 	}
 	//std::string filtered_string = logic_parser->parseNOTgates(stringInputText, size_dialog->m_sizeSpin->GetValue());
+	stringInputText = std::regex_replace(stringInputText, std::regex("^ +| +$|( ) +"), "$1");
 	int result = arithmetic_parser->izracunajRezultat(stringInputText);
 	history_dialog->HistoryList->Append(wxString(stringInputText + " = " + std::to_string(result)));
-	this->currentNumSystem = M_NUMSYS_BIN;
+	this->currentNumSystem = M_NUMSYS_DEC;
 	mi_Decimal->Check();
 	//wxMenuItem* bruh = reinterpret_cast<wxMenuItem>(FindWindowById(M_NUMSYS_BIN));
 
@@ -843,5 +843,6 @@ main::~main()
 	delete history_dialog;
 	delete size_dialog;
 	delete logic_parser;
+	delete arithmetic_parser;
 }
 
