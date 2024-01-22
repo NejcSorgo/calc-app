@@ -58,7 +58,7 @@ main::main(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint
 
 	numberPadSizer->Add(btn_root, 0, wxALL | wxEXPAND, 5);
 
-	m_fill = new wxButton(m_panel_arithemtic, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0);
+	m_fill = new wxButton(m_panel_arithemtic, BTN_MISC_DOT, wxT("."), wxDefaultPosition, wxDefaultSize, 0);
 	numberPadSizer->Add(m_fill, 0, wxALL | wxEXPAND, 5);
 
 	btn_clear = new wxButton(m_panel_arithemtic, BTN_CTRL_CLEAR, wxT("CE"), wxDefaultPosition, wxDefaultSize, 0);
@@ -274,7 +274,6 @@ main::main(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint
 	m_calcmenu->Append(m_file, wxT("Datoteka"));
 
 	m_numberSystem = new wxMenu();
-	wxMenuItem* mi_Decimal;
 	mi_Decimal = new wxMenuItem(m_numberSystem, M_NUMSYS_DEC, wxString(wxT("Decimalni")), wxEmptyString, wxITEM_RADIO);
 	m_numberSystem->Append(mi_Decimal);
 	mi_Decimal->Check(true);
@@ -315,6 +314,7 @@ main::main(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint
 	history_dialog = new HistoryDialog(this, wxID_ANY, "Zgodovina");
 	size_dialog = new sizeDialog(this, wxID_ANY, "Velikost");
 	logic_parser = new logicParser();
+	arithmetic_parser = new arithmeticParser();
 	//file_dialog = new wxFileDialog(this);
 	this->Centre(wxBOTH);
 	// menu binds;
@@ -350,10 +350,13 @@ main::main(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint
 	Bind(wxEVT_BUTTON, &main::handleOperations, this, BTN_OP_MODUS);
 	Bind(wxEVT_BUTTON, &main::handleOperations, this, BTN_MISC_LBRACKET);
 	Bind(wxEVT_BUTTON, &main::handleOperations, this, BTN_MISC_RBRACKET);
+	Bind(wxEVT_BUTTON, &main::handleNumButtons, this, BTN_MISC_DOT);
 	Bind(wxEVT_BUTTON, &main::handleBackspace, this, BTN_CTRL_BACKSPACE);
 	Bind(wxEVT_BUTTON, &main::handleClear, this, BTN_CTRL_CLEAR);
 	Bind(wxEVT_BUTTON, &main::handleFunction, this, BTN_OP_ROOT);
 	Bind(wxEVT_BUTTON, &main::handleFunction, this, BTN_OP_EXP);
+	Bind(wxEVT_BUTTON, &main::handleResult, this, BTN_CTRL_RESULT);
+
 	// logic binds
 	Bind(wxEVT_BUTTON, &main::handleNumLogicButtons, this, BTN_LOGIC_NUM_0);
 	Bind(wxEVT_BUTTON, &main::handleNumLogicButtons, this, BTN_LOGIC_NUM_1);
@@ -801,36 +804,36 @@ void main::handleFileImport(wxCommandEvent& event)
 	}
 }
 void main::handleResult(wxCommandEvent& event) {
-	int id = event.GetId();
-	std::vector<bool> result;
-	std::string input;
-	int size = size_dialog->m_sizeSpin->GetValue();
-	switch (id)
+	std::string stringInputText = std::string(textInput->GetValue().mb_str());
+	if (stringInputText.empty())
 	{
-	case BTN_CTRL_RESULT:
+		return;
+	}
+	switch (this->currentNumSystem)
+	{
+	case M_NUMSYS_BIN:
+		stringInputText = numCnvrt->BinaryToDecimal(stringInputText);
 		break;
-	case BTN_LOGIC_CTRL_RESULT:
-		input = logictextInput->GetValue();
-		switch (this->currentNumSystem)
-		{
-		case M_NUMSYS_BIN:
-			result = logic_parser->parseLogicGates(input, size);
-			break;
-		case M_NUMSYS_DEC:
+	case M_NUMSYS_HEX:
+		stringInputText = numCnvrt->HexToDecimal(stringInputText);
+		break;
+	case M_NUMSYS_OCT:
+		stringInputText = numCnvrt->OctalToDecimal(stringInputText);
+		break;
 
-			break;
-		case M_NUMSYS_OCT:
-			break;
-		case M_NUMSYS_HEX:
-			break;
-		default:
-			break;
-		}
-		break;
 	default:
 		break;
 	}
+	//std::string filtered_string = logic_parser->parseNOTgates(stringInputText, size_dialog->m_sizeSpin->GetValue());
+	int result = arithmetic_parser->izracunajRezultat(stringInputText);
+	history_dialog->HistoryList->Append(wxString(stringInputText + " = " + std::to_string(result)));
+	this->currentNumSystem = M_NUMSYS_BIN;
+	mi_Decimal->Check();
+	//wxMenuItem* bruh = reinterpret_cast<wxMenuItem>(FindWindowById(M_NUMSYS_BIN));
+
+	textInput->SetValue(wxString(std::to_string(result)));
 }
+
 void main::handleSize(wxCommandEvent& event) {
 	size_dialog->showDialog();
 	event.Skip();

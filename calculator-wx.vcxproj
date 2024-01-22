@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="arithmeticParser.h" />
     <ClInclude Include="calcApp.h" />
     <ClInclude Include="historyDialog.h" />
     <ClInclude Include="logicParser.h" />
@@ -28,6 +29,7 @@
     <ClInclude Include="sizeDialog.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="arithmeticParser.cpp" />
     <ClCompile Include="calcApp.cpp" />
     <ClCompile Include="historyDialog.cpp" />
     <ClCompile Include="logicParser.cpp" />

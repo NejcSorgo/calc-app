@@ -2,7 +2,6 @@
 #include <wx/wx.h>
 #include <wx/txtstrm.h>
 #include <wx/notebook.h>
-
 #include <wx/filedlg.h>
 #include <wx/stream.h>
 #include <wx/wfstream.h>
@@ -14,6 +13,7 @@
 #include "sizeDialog.h"
 #include "logicParser.h"
 #include "numConverter.h"
+#include "arithmeticParser.h"
 
 #define PANEL_ARITHMETIC 1000
 #define TEXT_RESULT 1001
@@ -85,6 +85,8 @@
 #define M_HISTORY_CLEAR 1067
 #define M_SIZE_OPEN 1068
 #define BTN_LOGIC_GATE_NOT 1069
+#define BTN_MISC_DOT 1070
+
 
 class main : public wxFrame
 {
@@ -176,12 +178,14 @@ class main : public wxFrame
 		wxMenu* m_file;
 		wxMenu* m_numberSystem;
 		wxMenuItem* mi_Binary;
+		wxMenuItem* mi_Decimal;
 		wxMenu* m_history;
 		wxMenu* m_size;
 		HistoryDialog* history_dialog;
 		sizeDialog* size_dialog;
 		wxFileDialog* file_dialog;
 		logicParser* logic_parser;
+		arithmeticParser* arithmetic_parser;
 		numConverter* numCnvrt;
 
 
